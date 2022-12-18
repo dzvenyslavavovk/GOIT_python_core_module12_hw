@@ -38,7 +38,12 @@ def change(contact):
 
 @input_error
 def show_phone(contact):
-    return contacts.search(contact.strip()).get_info()    
+    search_records = ''
+    records = contacts.search(contact.strip())
+
+    for record in records:
+        search_records += f"{record.get_info()}\n"
+    return search_records   
 
 def show_all():
     all_contacts = ''

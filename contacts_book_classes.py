@@ -113,14 +113,21 @@ class AddressBook(UserDict):
         del self.data[name]
 
     def search(self, value):
-        if self.has_record(value):
-            return self.get_record(value)
-        for record in self.get_all_record().values():
+        record_result = []
+        if self.data.get(value):
+            return self.data.get(value)
+        for record in self.data.values():
+            if value in record.name.value:
+                record_result.append(record)
+                continue
+            
             for phone in record.phones:
-                if phone.value == value:
-                    return record
+                if value in phone.value:
+                    record_result.append(record)
 
-        raise ValueError("Contact with this value does not exist.")
+        if not record_result:
+            raise ValueError("Contact with this value does not exist.")
+        return record_result
 
     def iterator(self, count = 5):
         page = []
